@@ -481,7 +481,6 @@
         }
     </style>
 
-    <!-- Meta Pixel Script -->
     <script>
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -510,16 +509,16 @@
     <div class="container">
         <div class="main-content">
             <div class="product-section">
-                <h1 class="product-title">Cocotte SEB</h1>
+                <h1 class="product-title">Cocotte </h1>
 
                 <div class="image-slider-container">
                     <div class="main-image-container">
-                        <img src="/cocotte-min.jpg" alt="cocotte seb" class="main-image" id="mainImage" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23ddd%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2224%22%3EKaraoké K12%3C/text%3E%3C/svg%3E'">
+                        <img src="/product1.jpeg" alt="cocotte seb" class="main-image" id="mainImage" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23ddd%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2224%22%3EKaraoké K12%3C/text%3E%3C/svg%3E'">
                     </div>
 
                     <div class="thumbnail-container">
                         <div class="thumbnail active" onclick="changeImage(0)">
-                            <img src="/cocotte-min.jpg" alt="Image 1" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23ddd%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2216%22%3E1%3C/text%3E%3C/svg%3E'">
+                            <img src="/product1.jpeg" alt="Image 1" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23ddd%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2216%22%3E1%3C/text%3E%3C/svg%3E'">
                         </div>
                         <div class="thumbnail" onclick="changeImage(1)">
                             <img src="/product2.jpeg" alt="Image 2" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2216%22%3E2%3C/text%3E%3C/svg%3E'">
@@ -533,7 +532,6 @@
                     </div>
                 </div>
 
-                <!-- Quantity Selector Section -->
                 <div class="quantity-section">
                     <span class="quantity-label">اختر الكمية المطلوبة</span>
                     <div class="quantity-selector">
@@ -632,7 +630,7 @@
         
         // Image slider functionality
         const images = [
-            '/cocotte-min.jpeg',
+            '/cocotte-min.jpg', // **تم التعديل هنا ليتوافق مع الصورة الافتتاحية**
             '/product2.jpeg',
             '/product3.jpeg',
             '/product4.jpeg'
@@ -790,6 +788,7 @@
                 communeSelect.disabled = false;
             } else {
                 communeSelect.disabled = true;
+                communeSelect.innerHTML = '<option value="">اختر الولاية أولاً</option>';
             }
             
             updatePrice();
@@ -890,7 +889,7 @@
                     fbq('track', 'Purchase', {
                         value: purchaseValue,
                         currency: 'DZD',
-                        content_name: 'Cocotte SEB,
+                        content_name: 'Cocotte SEB',
                         content_type: 'product',
                         contents: [{ 
                             id: 'K12', 
@@ -910,7 +909,12 @@
                 // Reset quantity and form state
                 currentQuantity = 1;
                 updateQuantityDisplay();
-                wilayaSelect.dispatchEvent(new Event('change'));
+                // Re-initialize wilaya/commune selection after reset
+                const communeSelect = document.getElementById('communeSelect');
+                wilayaSelect.value = ''; // Reset wilaya
+                communeSelect.innerHTML = '<option value="">اختر الولاية أولاً</option>';
+                communeSelect.disabled = true;
+                
                 document.getElementById('totalPriceDisplay').classList.remove('show');
                 
             } catch (error) {
