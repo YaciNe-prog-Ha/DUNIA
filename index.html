@@ -48,6 +48,56 @@
             text-align: center;
         }
 
+        /* Volume Selection */
+        .volume-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .volume-label {
+            font-size: 1.1em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: block;
+        }
+
+        .volume-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .volume-btn {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            color: #2c3e50;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .volume-btn:hover {
+            border-color: #2c3e50;
+            transform: translateY(-2px);
+        }
+
+        .volume-btn.active {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            border-color: #2c3e50;
+            box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
+        }
+
         /* Image Slider */
         .image-slider-container {
             margin-bottom: 25px;
@@ -415,12 +465,16 @@
                 order: 2;
             }
 
-            .quantity-section {
+            .volume-section {
                 order: 3;
             }
 
-            .price-section {
+            .quantity-section {
                 order: 4;
+            }
+
+            .price-section {
+                order: 5;
                 padding: 20px;
                 margin: 20px 0;
             }
@@ -434,7 +488,7 @@
             }
 
             .product-description {
-                order: 5;
+                order: 6;
             }
 
             .product-section {
@@ -502,7 +556,7 @@
         <div class="nav-title">cocotte SEB</div>
         <div class="nav-details">
             <div class="nav-quantity" id="navQuantity">الكمية: 1</div>
-            <div class="nav-price" id="navPrice">30000 دج</div>
+            <div class="nav-price" id="navPrice">28000 دج</div>
         </div>
     </div>
 
@@ -536,6 +590,16 @@
                     </div>
                 </div>
 
+                <!-- Volume Selection Section -->
+                <div class="volume-section">
+                    <span class="volume-label">اختر الحجم المطلوب</span>
+                    <div class="volume-buttons">
+                        <button class="volume-btn active" data-volume="4L" data-price="28000">4L</button>
+                        <button class="volume-btn" data-volume="6L" data-price="30500">6L</button>
+                        <button class="volume-btn" data-volume="7L" data-price="32500">7L</button>
+                    </div>
+                </div>
+
                 <div class="quantity-section">
                     <span class="quantity-label">اختر الكمية المطلوبة</span>
                     <div class="quantity-selector">
@@ -543,12 +607,12 @@
                         <div class="quantity-display" id="quantityDisplay">1</div>
                         <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
                     </div>
-                    <div class="quantity-price" id="quantityPrice">30000 دج</div>
+                    <div class="quantity-price" id="quantityPrice">28000 دج</div>
                 </div>
 
                 <div class="price-section">
                     <div class="price-label">السعر الإجمالي</div>
-                    <div class="price-amount" id="displayPrice">30000 دج</div>
+                    <div class="price-amount" id="displayPrice">28000 دج</div>
                 </div>
 
                 
@@ -593,19 +657,23 @@
 
                     <div class="total-price-display" id="totalPriceDisplay">
                         <div class="total-price-label">الفاتورة النهائية</div>
-                        <div class="total-price-value" id="totalPriceValue">2000 دج</div>
+                        <div class="total-price-value" id="totalPriceValue">28000 دج</div>
                         <div class="price-breakdown">
                             <div class="breakdown-item">
                                 <span>سعر الوحدة:</span>
-                                <span id="unitPriceBreakdown">2000 دج</span>
+                                <span id="unitPriceBreakdown">28000 دج</span>
                             </div>
                             <div class="breakdown-item">
                                 <span>الكمية:</span>
                                 <span id="quantityBreakdown">1</span>
                             </div>
                             <div class="breakdown-item">
+                                <span>الحجم:</span>
+                                <span id="volumeBreakdown">4L</span>
+                            </div>
+                            <div class="breakdown-item">
                                 <span>تكلفة المنتج:</span>
-                                <span id="productTotalBreakdown">2000 دج</span>
+                                <span id="productTotalBreakdown">28000 دج</span>
                             </div>
                             <div class="breakdown-item">
                                 <span>تكلفة التوصيل:</span>
@@ -613,7 +681,7 @@
                             </div>
                             <div class="breakdown-item">
                                 <span>المجموع:</span>
-                                <span id="finalTotalBreakdown">2000 دج</span>
+                                <span id="finalTotalBreakdown">28000 دج</span>
                             </div>
                         </div>
                     </div>
@@ -625,7 +693,8 @@
     </div>
 
     <script>
-        const PRODUCT_PRICE = 30000;
+        let PRODUCT_PRICE = 28000;
+        let CURRENT_VOLUME = "4L";
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvvIVmLjn1FJ2evR43nbGO3nud5eU5JsFqddyhZ3FjDqeF9qyiCqFYZtPkvUb7RZw/exec';
         
         let currentQuantity = 1;
@@ -652,6 +721,27 @@
                 }
             });
         }
+        
+        // Volume selection functionality
+        document.querySelectorAll('.volume-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.volume-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Update product price and volume
+                PRODUCT_PRICE = parseInt(this.getAttribute('data-price'));
+                CURRENT_VOLUME = this.getAttribute('data-volume');
+                
+                // Update price display
+                updatePrice();
+                updateQuantityDisplay();
+            });
+        });
         
         // Quantity functionality
         function changeQuantity(change) {
@@ -826,6 +916,7 @@
             // Update breakdown
             document.getElementById('unitPriceBreakdown').textContent = PRODUCT_PRICE + ' دج';
             document.getElementById('quantityBreakdown').textContent = currentQuantity;
+            document.getElementById('volumeBreakdown').textContent = CURRENT_VOLUME;
             document.getElementById('productTotalBreakdown').textContent = productTotal + ' دج';
             document.getElementById('deliveryBreakdown').textContent = deliveryPriceValue + ' دج';
             document.getElementById('finalTotalBreakdown').textContent = totalPrice + ' دج';
@@ -861,6 +952,7 @@
                 commune: this.commune.value,
                 deliveryType: this.delivery_type.value === 'home' ? 'التوصيل للمنزل' : 'التوصيل للمكتب',
                 quantity: currentQuantity,
+                volume: CURRENT_VOLUME,
                 unitPrice: PRODUCT_PRICE,
                 productTotal: PRODUCT_PRICE * currentQuantity,
                 deliveryPrice: document.getElementById('deliveryBreakdown').textContent,
@@ -903,7 +995,7 @@
 
                 // Success message
                 showModal('نجاح!', 'شكراً لك! تم استلام طلبك بنجاح.', 
-                    `الاسم: ${formData.name}<br>الهاتف: ${formData.phone}<br>الولاية: ${formData.wilaya}<br>البلدية: ${formData.commune}<br>الكمية: ${formData.quantity}<br>السعر الإجمالي: ${formData.totalPrice}`);
+                    `الاسم: ${formData.name}<br>الهاتف: ${formData.phone}<br>الولاية: ${formData.wilaya}<br>البلدية: ${formData.commune}<br>الحجم: ${formData.volume}<br>الكمية: ${formData.quantity}<br>السعر الإجمالي: ${formData.totalPrice}`);
                 
                 console.log('Order submitted successfully:', formData);
                 this.reset();
