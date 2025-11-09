@@ -511,30 +511,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 height: 70px;
             }
 
+            /* Targets screens 600px wide or less (like phones) */
+    @media (max-width: 600px) {
             .sticky-navbar {
-                flex-direction: column;
-                gap: 10px;
-                padding: 20px;
+                flex-direction: row; /* Arrange items horizontally */
+                justify-content: space-between; /* Space items out */
+                align-items: center; /* Vertically center them */
+                padding: 10px; /* Reduce top/bottom padding */
+                gap: 15px; /* Space between title and details block */
             }
 
             .sticky-navbar .nav-title {
-                font-size: 1.2em;
+                font-size: 1.1em; /* Slightly smaller title */
+                flex-grow: 1; /* Allows title to take available space */
             }
 
             .sticky-navbar .nav-details {
-                flex-direction: column;
-                gap: 10px;
+               flex-direction: column; /* Keep quantity/price stacked */
+               align-items: flex-end; /* Align them to the right */
+               gap: 2px; /* Greatly reduce gap between quantity/price */
+               flex-shrink: 0; /* Prevent this block from shrinking */
             }
 
+            .sticky-navbar .nav-quantity {
+               font-size: 0.9em; /* Smaller font for quantity */
+            }
+    
             .sticky-navbar .nav-price {
-                font-size: 2em;
+               font-size: 1.4em; /* Make price smaller to save space */
+               line-height: 1; /* Reduce line height */
             }
-
-            .quantity-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.3em;
-            }
+}
 
             .quantity-display {
                 font-size: 1.8em;
